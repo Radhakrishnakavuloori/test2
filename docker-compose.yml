@@ -3,28 +3,6 @@ version: '3.8'
 
 services:
 
-  zammad-backup:
-    command: ["zammad-backup"]
-    depends_on:
-      - zammad-railsserver
-      - zammad-postgresql
-    entrypoint: /usr/local/bin/backup.sh
-    environment:
-      - BACKUP_TIME=03:00
-      - HOLD_DAYS=10
-      - POSTGRESQL_DB=${POSTGRES_DB}
-      - POSTGRESQL_USER=${POSTGRES_USER}
-      - POSTGRESQL_PASSWORD=${POSTGRES_PASS}
-      - POSTGRESQL_HOST=${POSTGRES_HOST}
-      - POSTGRESQL_PORT=${POSTGRES_PORT}
-      - TZ=Europe/Berlin
-    image: postgres:${POSTGRES_VERSION}
-    restart: ${RESTART}
-    volumes:
-      - zammad-backup:/var/tmp/zammad
-      - zammad-var:/opt/zammad/var:ro
-      - ./scripts/backup.sh:/usr/local/bin/backup.sh:ro
-
   zammad-elasticsearch:
     image: bitnami/elasticsearch:${ELASTICSEARCH_VERSION}
     restart: ${RESTART}
@@ -71,8 +49,6 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT}
     image: postgres:${POSTGRES_VERSION}
     restart: ${RESTART}
-    volumes:
-      - postgresql-data:/var/lib/postgresql/data
 
   zammad-railsserver:
     command: ["zammad-railsserver"]
@@ -124,8 +100,6 @@ services:
 
 volumes:
   elasticsearch-data:
-    driver: local
-  postgresql-data:
     driver: local
   redis-data:
     driver: local
