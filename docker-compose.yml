@@ -103,8 +103,6 @@ volumes:
     driver: local
   redis-data:
     driver: local
-  zammad-backup:
-    driver: local
   zammad-config-nginx:
     driver: local
   zammad-var:
